@@ -1,4 +1,3 @@
-import java.sql.SQLOutput;
 
 public class Main
 {
@@ -33,6 +32,7 @@ public class Main
         printTreeInTransversal( root2 );
         
          */
+        BinaryTreeNode testCopy = copyTree( root2 );
         System.out.println( "----------No Null---------" );
         printTreeNoNull( root2 );
         System.out.print( "SUM: " );
@@ -40,6 +40,16 @@ public class Main
         incrementTree( root2 );
         System.out.println( "------------Updated-----------" );
         printTreeNoNull( root2 );
+        System.out.println( "------------Copy Tree-----------" );
+        printTreeNoNull( copyTree( root2 ) );
+        System.out.println( "------------Original Tree-----------" );
+        printTreeNoNull( testCopy );
+        System.out.println( "-------------Count Nodes-------------" );
+        System.out.println( countNodes( root2 ) );
+        System.out.println( "---------------Height-----------------" );
+        System.out.println( height( root2 ) );
+        System.out.println( "----------------Max Value----------------" );
+        System.out.println( maxValue( testCopy ) );
         
     }
     
@@ -90,6 +100,7 @@ public class Main
             // 1. print the left subtree
             // 2. print the right subtree
             // 3. print ref's value
+            
             System.out.println( ref.value() );
             printTreePreTransversal( ref.left() );
             printTreePreTransversal( ref.right() );
@@ -126,6 +137,90 @@ public class Main
         }
     }
     
+    public static BinaryTreeNode copyTree( BinaryTreeNode ref )
+    {
+        if ( ref != null )
+        {
+            return new BinaryTreeNode( copyTree( ref.left() ), ref.value(), copyTree( ref.right() ) );
+        }
+        return null;
+    }
     
+    public static int countNodes( BinaryTreeNode ref )
+    {
+        int count = 0;
+        if ( ref != null )
+        {
+            count = 1 + countNodes( ref.right() ) + countNodes( ref.left() );
+            
+        }
+        return count;
+    }
+    
+    public static int maxValue( BinaryTreeNode ref )
+    {
+        int max;
+        if ( ref.isLeaf() )
+        {
+            max = ref.value();
+        }
+        else if ( ref.left() == null )
+        {
+            int rightMax = maxValue( ref.right() );
+            max = Math.max( rightMax, ref.value() );
+        }
+        else if ( ref.right() == null )
+        {
+            int leftMax = maxValue( ref.left() );
+            max = Math.max( leftMax, ref.value() );
+        }
+        else
+        {
+            int leftMax = maxValue( ref.left() );
+            int rightMax = maxValue( ref.right() );
+            max = maxOf3( ref.value(), leftMax, rightMax );
+        }
+        return max;
+    }
+    
+    private static int maxOf3( int a, int b, int c )
+    {
+        int[] arr = { a, b, c };
+        int bigger = 0;
+        for ( int i = 0; i < arr.length - 1; i++ )
+        {
+            if ( arr[ i ] <= arr[ i + 1 ] )
+            {
+                bigger = arr[ i + 1 ];
+            }
+            
+        }
+        return bigger;
+    }
+    
+    public static int height( BinaryTreeNode ref )
+    {
+        int height = 0;
+        if ( ref != null )
+        {
+            int leftHeight = height( ref.left() );
+            int rightHeight = height( ref.right() );
+            
+            if ( leftHeight >= rightHeight )
+            {
+                height = leftHeight + 1;
+            }
+            else
+            {
+                height = rightHeight + 1;
+            }
+            
+            //Terinary Version of the if/else statement
+            // height = (leftHeight > rightHeight ? leftHeight + 1 : rightHeight + 1)
+            //                evaluates first         true case       false case
+        }
+        return height;
+        
+    }
     
 }
