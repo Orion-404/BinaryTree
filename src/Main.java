@@ -31,7 +31,7 @@ public class Main
         System.out.println( "----------In----------" );
         printTreeInTransversal( root2 );
         
-         */
+        
         BinaryTreeNode testCopy = copyTree( root2 );
         System.out.println( "----------No Null---------" );
         printTreeNoNull( root2 );
@@ -50,7 +50,55 @@ public class Main
         System.out.println( height( root2 ) );
         System.out.println( "----------------Max Value----------------" );
         System.out.println( maxValue( testCopy ) );
+        System.out.println( "-----------------Set Depth-----------------" );
+        setDepth( testCopy );
+        printTreeNoNull( testCopy );
+         */
+        System.out.println( "-------------------Rotated Tree------------------" );
+        printLeftRotatedTree( root2 );
         
+    }
+    
+    public static void setDepth( BinaryTreeNode ref )
+    {
+        setDepth( ref, 1 );
+    }
+    
+    private static void setDepth( BinaryTreeNode ref, int depth )
+    {
+        if ( ref != null )
+        {
+            ref.setValue( depth );
+            setDepth( ref.left(), depth + 1 );
+            setDepth( ref.right(), depth + 1 );
+        }
+    }
+    
+    public static void printLeftRotatedTree( BinaryTreeNode ref )
+    {
+        printLeftRotatedTree( ref, 0 );
+    }
+    
+    private static void printLeftRotatedTree( BinaryTreeNode ref, int depth )
+    {
+        if ( ref == null )
+        {
+            for ( int i = 0; i < depth; i++ )
+            {
+                System.out.print( "    " );
+            }
+            System.out.println( "NULL" );
+        }
+        else
+        {
+            printLeftRotatedTree( ref.right(), depth + 1 );
+            for ( int i = 0; i < depth; i++ )
+            {
+                System.out.print( "    " );
+            }
+            System.out.println( ref.value() );
+            printLeftRotatedTree( ref.left(), depth + 1 );
+        }
     }
     
     public static void printTreePostTransversal( BinaryTreeNode ref )
@@ -145,6 +193,7 @@ public class Main
         }
         return null;
     }
+    
     
     public static int countNodes( BinaryTreeNode ref )
     {
