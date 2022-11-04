@@ -56,7 +56,10 @@ public class Main
          */
         System.out.println( "-------------------Rotated Tree------------------" );
         printLeftRotatedTree( root2 );
-        
+        System.out.println( "--------------------Num Leaves--------------------" );
+        System.out.println( numLeaves( root2 ) );
+        System.out.println( "--------------------Search------------------" );
+        System.out.println( isFound( root2, 10 ) );
     }
     
     public static void setDepth( BinaryTreeNode ref )
@@ -272,4 +275,29 @@ public class Main
         
     }
     
+    public static int numLeaves( BinaryTreeNode ref )
+    {
+        int leafCount = 0;
+        if ( ref != null )
+        {
+            if ( ref.isLeaf() )
+            {
+                leafCount = 1 + numLeaves( ref.left() ) + numLeaves( ref.right() );
+            }
+            else
+            {
+                leafCount = numLeaves( ref.left() ) + numLeaves( ref.right() );
+            }
+        }
+        return leafCount;
+    }
+    
+    public static boolean isFound( BinaryTreeNode ref, int key )
+    {
+        if ( ref != null )
+        {
+            return ref.value() == key || isFound( ref.left(), key ) || isFound( ref.right(), key );
+        }
+        return false;
+    }
 }
